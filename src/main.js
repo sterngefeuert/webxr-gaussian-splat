@@ -28,8 +28,14 @@ controls.dampingFactor = 0.05;
 controls.target.set(0, 1, 0);
 controls.update();
 
-renderer.xr.addEventListener('sessionstart', () => { controls.enabled = false; });
-renderer.xr.addEventListener('sessionend', () => { controls.enabled = true; });
+renderer.xr.addEventListener('sessionstart', () => {
+  controls.enabled = false;
+  if (viewer) viewer.webXRActive = true;
+});
+renderer.xr.addEventListener('sessionend', () => {
+  controls.enabled = true;
+  if (viewer) viewer.webXRActive = false;
+});
 
 // ─── WebXR Buttons ───────────────────────────────────────────────────────────
 
@@ -100,6 +106,7 @@ async function loadSplat(url) {
     splatAlphaRemovalThreshold: 5,
     halfPrecisionCovariancesOnGPU: true
   });
+  viewer.webXRActive = renderer.xr.isPresenting;
 
   try {
     await viewer.addSplatScene(url, {
