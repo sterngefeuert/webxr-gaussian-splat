@@ -2,6 +2,7 @@ import { defineConfig } from 'vite';
 import basicSsl from '@vitejs/plugin-basic-ssl';
 
 export default defineConfig({
+  base: '/webxr-gaussian-splat/',   // GitHub Pages serves the repo under this subpath
   plugins: [basicSsl()],
   server: {
     https: true,
